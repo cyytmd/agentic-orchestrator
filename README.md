@@ -130,9 +130,9 @@ hermes chat -q "帮我写一个 Flask REST API 并部署到 Docker"
 
 | 演示项目 | 链接 |
 |---------|------|
-| 🌐 Web Dashboard | [https://cyytmd.github.io/agentic-orchestrator/demo](https://cyytmd.github.io/agentic-orchestrator/demo) |
-| 📹 多 Agent 协作 | [demo/multi-agent-code-review.gif](demo/) |
-| 🤖 QQ Bot 演示 | [https://cyytmd.github.io/agentic-orchestrator/demo/qqbot](https://cyytmd.github.io/agentic-orchestrator/demo/qqbot) |
+| 🌐 Web Dashboard | [https://cyytmd.github.io/agentic-orchestrator](https://cyytmd.github.io/agentic-orchestrator) |
+| 📹 多 Agent 协作 | [demo/multi-agent-code-review.gif](docs/) |
+| 🤖 QQ Bot 演示 | [https://cyytmd.github.io/agentic-orchestrator/qqbot](https://cyytmd.github.io/agentic-orchestrator/qqbot) |
 
 ## 📊 性能数据
 
