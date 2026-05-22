@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QQ Bot — Agentic Orchestrator Demo</title>
+<style>
+:root { --bg: #0a0a0f; --card: #13141f; --border: #1e1f2e; --accent: #6366f1; --text: #e2e8f0; --muted: #64748b; --green: #22c55e; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background:var(--bg); color:var(--text); padding:40px; }
+h1 { background:linear-gradient(135deg,var(--accent),#a855f7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:2em; margin-bottom:24px; }
+.chat { max-width:600px; margin:0 auto; }
+.msg { margin-bottom:16px; display:flex; gap:10px; }
+.msg.user { justify-content:flex-end; }
+.msg .bubble { max-width:80%; padding:12px 16px; border-radius:12px; font-size:0.95em; }
+.msg.user .bubble { background:var(--accent); }
+.msg.bot .bubble { background:var(--card); border:1px solid var(--border); }
+.msg.bot .bubble pre { background:#000; padding:10px; border-radius:6px; overflow-x:auto; margin-top:8px; font-size:0.85em; }
+.time { font-size:0.75em; color:var(--muted); margin-bottom:4px; }
+</style>
+</head>
+<body>
+<h1>🤖 QQ Bot — Agentic Orchestrator</h1>
+<div class="chat">
+<div class="msg user"><div class="bubble">帮我查一下线上 Redis 连接池</div></div>
+<div class="msg bot"><div class="bubble">
+收到，正在检查 Redis 集群状态...<br>
+<pre>master-1 (10.0.1.12:6379) — OK | 连接: 56/200
+master-2 (10.0.1.13:6379) — OK | 连接: 48/200
+master-3 (10.0.1.14:6379) — OK | 连接: 52/200</pre>
+✅ 集群状态正常，无需干预。
+</div></div>
+<div class="msg user"><div class="bubble">把昨天下午的 PR #342 merge 到 main</div></div>
+<div class="msg bot"><div class="bubble">
+已检查 PR #342:<br>
+• CI 全部通过 ✅<br>
+• Code Review 已批准 ✅<br>
+<br>正在 merge... 完成！🎉
+</div></div>
+</div>
+</body>
+</html>

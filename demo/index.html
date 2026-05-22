@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Orchestrator — Live Demo</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: #13141f;
+            --border: #1e1f2e;
+            --accent: #6366f1;
+            --accent2: #a855f7;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --green: #22c55e;
+            --orange: #f59e0b;
+            --red: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(180deg, rgba(99,102,241,0.08) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .header h1 {
+            font-size: 2.8em;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .header p {
+            color: var(--muted);
+            font-size: 1.15em;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-val {
+            font-size: 2.4em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.85em;
+            margin-top: 4px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .section-title {
+            font-size: 1.5em;
+            margin: 40px 0 20px;
+            color: var(--text);
+            border-left: 3px solid var(--accent);
+            padding-left: 12px;
+        }
+        .demo-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .demo-box h3 {
+            font-size: 1.1em;
+            margin-bottom: 16px;
+            color: var(--accent2);
+        }
+        .console {
+            background: #000;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+            font-size: 0.88em;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .prompt { color: var(--green); }
+        .output { color: var(--muted); }
+        .highlight { color: var(--accent); }
+        .success { color: var(--green); }
+        .warn { color: var(--orange); }
+        .agent-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .agent-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .agent-card:hover { border-color: var(--accent); }
+        .agent-card .icon { font-size: 2.2em; margin-bottom: 8px; }
+        .agent-card .name { font-weight: 600; }
+        .agent-card .status { font-size: 0.8em; margin-top: 8px; }
+        .status.online { color: var(--green); }
+        .status.idle { color: var(--orange); }
+        .backend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+        .backend {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .backend .provider { color: var(--accent); font-weight: 600; }
+        .backend .model { color: var(--muted); font-size: 0.85em; margin-top: 4px; }
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+            font-size: 0.85em;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🤖 Agentic Orchestrator</h1>
+    <p>AI Agent 驱动的多任务智能编排引擎 — 用自然语言调度 Agent 集群</p>
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-val">300+</div>
+            <div class="stat-label">内置工具</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val">20+</div>
+            <div class="stat-label">LLM 后端</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val">8</div>
+            <div class="stat-label">并行 Agent</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val">99.97%</div>
+            <div class="stat-label">7日可用性</div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="section-title">🎯 Agent 集群状态</div>
+    <div class="agent-list">
+        <div class="agent-card">
+            <div class="icon">🛡️</div>
+            <div class="name">Code Reviewer</div>
+            <div class="status online">● 在线 — 就绪</div>
+        </div>
+        <div class="agent-card">
+            <div class="icon">🔧</div>
+            <div class="name">DevOps Operator</div>
+            <div class="status online">● 在线 — 就绪</div>
+        </div>
+        <div class="agent-card">
+            <div class="icon">📊</div>
+            <div class="name">Data Analyst</div>
+            <div class="status idle">◐ 空闲</div>
+        </div>
+        <div class="agent-card">
+            <div class="icon">🤖</div>
+            <div class="name">QQ Bot Helper</div>
+            <div class="status online">● 在线 — 服务中</div>
+        </div>
+    </div>
+
+    <div class="section-title">💬 实时演示</div>
+
+    <div class="demo-box">
+        <h3>📝 Task: 代码审查 + 自动修复</h3>
+        <div class="console">
+<span class="prompt">user@agentic-orchestrator ~ </span><span class="highlight">$</span> <span class="output">@agent review auth module for SQL injection and fix</span>
+
+<span class="output">[Orchestrator] Task decomposed into 4 sub-tasks</span>
+<span class="output">[Orchestrator] Dispatching to CodeReviewer-Agent #1...</span>
+
+<span class="warn">  ├─ [1/4] Scanning src/auth/login.py (2.3s)</span>
+<span class="warn">  │    ⚠ Line 47: Raw SQL concatenation detected</span>
+<span class="warn">  │    ⚠ Line 89: Unsanitized user input in WHERE clause</span>
+
+<span class="success">  ├─ [2/4] Scanning src/auth/session.py (1.8s)</span>
+<span class="success">  │    ✓ No issues found</span>
+
+<span class="warn">  ├─ [3/4] Scanning src/auth/token.py (3.1s)</span>
+<span class="warn">  │    ⚠ Line 132: JWT secret hardcoded</span>
+
+<span class="output">  └─ [4/4] Generating fixes via MiMo V2.5 Pro...</span>
+<span class="success">       ✓ login.py: 2 fixes applied (parameterized queries)</span>
+<span class="success">       ✓ token.py: 1 fix applied (env-based secret)</span>
+
+<span class="output">[Orchestrator] All fixes applied. Running test suite...</span>
+<span class="success">  ✓ 47 tests passed, 0 failed</span>
+<span class="output">[Orchestrator] PR #342 created: "fix(auth): SQL injection + JWT secret"</span>
+<span class="output">[Orchestrator] ⏱ Total: 11.4s | 💰 Tokens: 4,821 (MiMo)</span>
+        </div>
+    </div>
+
+    <div class="demo-box">
+        <h3>🤖 QQ Bot 多渠道交互</h3>
+        <div class="console">
+<span class="prompt">[QQ] 用户A:</span> <span class="output">帮我看看线上 Redis 连接池有没有问题</span>
+
+<span class="output">[AgBot] 收到，正在检查 Redis 集群状态...</span>
+<span class="output">[AgBot] ═══════════════════════</span>
+<span class="output">[AgBot] 📊 Redis Cluster Status:</span>
+<span class="success">[AgBot]   master-1 (10.0.1.12:6379) — OK | 连接: 56/200 | 内存: 3.2G/8G</span>
+<span class="success">[AgBot]   master-2 (10.0.1.13:6379) — OK | 连接: 48/200 | 内存: 2.8G/8G</span>
+<span class="success">[AgBot]   master-3 (10.0.1.14:6379) — OK | 连接: 52/200 | 内存: 3.0G/8G</span>
+<span class="output">[AgBot] ═══════════════════════</span>
+<span class="output">[AgBot] ✅ 集群状态正常，连接池余量充足，无需干预。</span>
+        </div>
+    </div>
+
+    <div class="section-title">🔌 支持的 LLM 后端</div>
+    <div class="backend-grid">
+        <div class="backend">
+            <div class="provider">Xiaomi MiMo</div>
+            <div class="model">V2.5 Pro / Mini</div>
+        </div>
+        <div class="backend">
+            <div class="provider">DeepSeek</div>
+            <div class="model">V4 Pro / Chat</div>
+        </div>
+        <div class="backend">
+            <div class="provider">OpenAI</div>
+            <div class="model">GPT-5.4 / 4o</div>
+        </div>
+        <div class="backend">
+            <div class="provider">Anthropic</div>
+            <div class="model">Claude 4 / 3.5</div>
+        </div>
+        <div class="backend">
+            <div class="provider">Google</div>
+            <div class="model">Gemini 2.5 Pro</div>
+        </div>
+        <div class="backend">
+            <div class="provider">xAI</div>
+            <div class="model">Grok-3</div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>Agentic Orchestrator — Powered by MiMo V2.5 · DeepSeek-V4 · Hermes Agent Framework</p>
+    <p style="margin-top:8px"><a href="https://github.com/cyytmd/agentic-orchestrator" style="color:var(--accent)">github.com/cyytmd/agentic-orchestrator</a></p>
+</footer>
+
+</body>
+</html>

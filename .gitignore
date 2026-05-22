@@ -1,0 +1,15 @@
+# Agentic Orchestrator — .gitignore
+.env
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.hermes/
+*.log
+node_modules/
+dist/
+web_dist/
+.DS_Store
+.vscode/
+.idea/
